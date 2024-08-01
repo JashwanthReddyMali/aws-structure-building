@@ -1,0 +1,65 @@
+MainRegion: us-west-2
+Bucket:
+  Name: a-bucket-name
+#  Permissions:
+#    - Path: public
+#      Allowed: "*"
+#    - Path: shared-1
+#      Allowed: 012345678910,109876543210
+  PublicPath: public
+KeyPair:
+  Name: my-keypair
+  Path: /path/to/my-keypair.pem
+Vpc:
+  Name: a-vpc-name
+  Cidr: 10.0.0.0/16
+Budget:
+  Amount: 1000 # USD, monthly
+  Threshold: 90  # Percentage
+  Email: me@email.com
+Repositories:
+  - CodeCommitRepositoryName
+CodeToBucket:
+  - Repository: CodeCommitRepositoryName
+    Branch: master
+Cleanup:
+  Schedule: cron(0 20 * * ? *)
+  Targets:
+    - Type: SecurityGroup
+      Filters:
+        GroupName: "launch-wizard-.*"
+Maintenance:
+  - Name: InstancePatching
+    Schedule: cron(0 5 ? * MON *)
+    Tasks:
+      - Name: AWS-RunPatchBaseline
+        Parameters:
+          Operation: [ Install ]
+          RebootOption: [ RebootIfNeeded ]
+    Targets:
+      - tag:Patching: [ Enabled ]
+      - tag-key: [ Tag1, Tag2 ]
+PrefixLists:
+  af-south-1: pl-123456789
+  ap-east-1: pl-123456789
+  ap-northeast-1: pl-123456789
+  ap-northeast-2: pl-123456789
+  ap-northeast-3: pl-123456789
+  ap-south-1: pl-123456789
+  ap-southeast-1: pl-123456789
+  ap-southeast-2: pl-123456789
+  ap-southeast-3: pl-123456789
+  ca-central-1: pl-123456789
+  cn-north-1: pl-123456789
+  eu-central-1: pl-123456789
+  eu-north-1: pl-123456789
+  eu-south-1: pl-123456789
+  eu-west-1: pl-123456789
+  eu-west-2: pl-123456789
+  eu-west-3: pl-123456789
+  me-south-1: pl-123456789
+  sa-east-1: pl-123456789
+  us-east-1: pl-123456789
+  us-east-2: pl-123456789
+  us-west-1: pl-123456789
+  us-west-2: pl-123456789
